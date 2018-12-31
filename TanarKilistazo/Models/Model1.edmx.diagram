@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3fd304986f3746a99b2d354f86aa9621" Name="Diagram1">
+        <EntityTypeShape EntityType="TanarKilistazoModel.Felhasznalok" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.Osztalyok" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.Tanarok" Width="1.5" PointX="0.75" PointY="10" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.Tantargyak" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.Tantermek" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="TanarKilistazoModel.Orarendek" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="TanarKilistazoModel.FK_Orarendek_Osztalyok" />
+        <AssociationConnector Association="TanarKilistazoModel.FK_Orarendek_Tanarok" />
+        <AssociationConnector Association="TanarKilistazoModel.FK_Orarendek_Tantargyak" />
+        <AssociationConnector Association="TanarKilistazoModel.FK_Orarendek_Tantermek" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

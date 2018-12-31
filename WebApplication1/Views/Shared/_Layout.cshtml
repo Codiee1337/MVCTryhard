@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="icon" type="icon" href="~\Views\Shared\OHLOGOV1.0ICO.ico" />
+    <link rel="stylesheet" type="text/css" href="~/Style.css" />
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row" style="margin-right: -30px; margin-left: -30px;">
+
+            <div class="col-sm-2" style="padding-right: 0px;padding-left: 0px;border-right: solid 2px;border-right-color: #b9b9b9;">
+                <ul class="nav flex-column nav-pills nav-fill ">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Tanar/">Tanár kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Tanterem/" id="Tanteremkezelomenupont">Tanterem kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="Tantargykezelomenupont">Tantárgy kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="Osztalykezelomenupont">Osztály kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="Orarendkezelomenupont">Órarend kezelő</a>
+                    </li>
+                    <li class="nav-item btn-danger">
+                        <a class="nav-link" href="/" id="Kijelentkezes">Kijelentkezés</a>
+                    </li>
+                </ul>
+
+            </div>
+
+
+
+
+        </div>
+        @RenderBody()
+    </div>
+        <!--
+       <footer class="footer">
+           <p>&copy; @DateTime.Now.Year - Codiee™</p>
+       </footer>
+           -->
+
+</body>

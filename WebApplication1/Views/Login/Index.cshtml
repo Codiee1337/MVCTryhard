@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+@model WebApplication1.Models.Tanar
+@{
+    Layout = null;
+}
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="icon" type="icon" href="~\Views\Shared\OHLOGOV1.0ICO.ico" />
+    <link rel="stylesheet" type="text/css" href="~/Style.css" />
+    <style>
+     
+    </style>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#Bejelentkezes').click(function () {
+
+                var Felhasznalonev = $('#Felhasznalonev').val();
+                var Jelszo = $('#Jelszo').val();
+
+                console.log(Felhasznalonev);
+                console.log(Jelszo);
+
+
+                $.ajax({
+                    url: "https://api.ipify.org?format=jsonp&callback=?",
+                    async: false,
+                    dataType: 'json',
+                    success: function (data) {
+
+                        tovabb(data);
+                       
+                    }
+                    
+                });
+
+
+                
+                function tovabb(data) {
+
+                    var data = data;
+
+                    jsondata = '{"Felhasznalonev":"' + Felhasznalonev + '","Jelszo":"' + Jelszo + '","ipcim":"' + data.ip + '"}';
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/Login",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (response) {
+                            if (response.ErrorCode >= 0) {
+                                //console.log("Response OK!");
+                                window.location.href = "/Tanar/"
+                            } else {
+                                alert(response.ErrorMessage);
+                            }
+                            //console.log(response);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            // alert(response.responseText);
+                        }
+                    });
+                    
+                    
+                }
+                
+
+            });
+
+
+        });
+
+
+
+    </script>
+</head>
+
+<body>
+  <div class="loginform">
+        <form id="login"></form>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="row">
+                        <div class="col-md-6 mx-auto">
+                            <div class="card rounded-1">
+                                <div class="card-body">
+                                    <div class="form-group text-center">
+                                        <label for="Felhasznalonev">Felhasználónév</label>
+                                        <input type="email" class="form-control form-control-lg rounded-1 text-center" name="Felhasznalonev" id="Felhasznalonev" required>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <label>Jelszó</label>
+                                        <input type="password" class="form-control form-control-lg rounded-1 text-center" id="Jelszo" required autocomplete="new-password">
+                                        <div class="invalid-feedback">Nem megfelelő jelszó!</div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-lg" id="Bejelentkezes">Bejelentkezés!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</body>

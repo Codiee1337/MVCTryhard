@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+@model WebApplication1.Models.Tantargyak
+@{
+    Layout = null;
+}
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="icon" type="icon" href="~\Views\Shared\OHLOGOV1.0ICO.ico" />
+    <link rel="stylesheet" type="text/css" href="~/Style.css" />
+
+
+    <script>
+        $(document).ready(function () {
+            var $rows = $('#table tr');
+            $('#search').keyup(function () {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+            $('#hozzaad').click(function () {
+
+                // console.log("gombnyomas tortent!");
+
+                $("#MyModal").modal();
+
+            });
+
+            $('#tanarhozzaad').click(function () {
+
+
+
+
+                var Tantargy = $("#Tantargy").val();
+                var TantargyRovidites = $("#TantargyRovidites").val();
+                
+                // console.log(Vezeteknev + " " + Keresztnev + " " + Nem);
+
+
+                if ((Tantargy === "") || (TantargyRovidites === "")) {
+                    alert("Semelyik mező sem lehet üres!");
+                } else {
+                    var jsondata = '{"Tantargy":"' + Tantargy + '","Tantargyroviditese":"' + TantargyRovidites + '"}';
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Tantargy/TantargyHozzaad",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (response) {
+                            if (response.ErrorCode >= 0) {
+                                //console.log("Response OK!");
+                                window.location.href = "/Tantargy/"
+                            } else {
+                                alert(response.ErrorMessage);
+                            }
+                            //console.log(response);
+                        },
+                        failure: function (response) {
+                            // alert(response.responseText);
+                        },
+                        error: function (response) {
+                            // alert(response.responseText);
+                        }
+                    });
+
+                }
+
+            });
+
+
+            $('.TantargyTorloGomb').click(function () {
+
+                // console.log("Torlogombnyomas!");
+
+                //console.log($(this).attr('id'));
+
+
+                if (!(confirm("Biztosan törölni szeretnéd?"))) {
+                    return;
+                }
+
+
+
+                var id = $(this).attr('id');
+                var jsondata = '{"ID":"' + id + '"}';
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Tantargy/TantargyTorol",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: jsondata,
+                    success: function (response) {
+                        if (response.ErrorCode >= 0) {
+                            //console.log("Response OK!");
+                            window.location.href = "/Tantargy/"
+                        } else {
+                            alert(response.ErrorMessage);
+                        }
+                        //console.log(response);
+                    },
+                    failure: function (response) {
+                        // alert(response.responseText);
+                    },
+                    error: function (response) {
+                        // alert(response.responseText);
+                    }
+                });
+
+            });
+
+            $('.TantargyFrissitoGomb').click(function () {
+
+                var id = $(this).attr('id');
+                var Tantargy = $(this).attr('Tantargy');
+                var Tantargyroviditese = $(this).attr('Tantargyroviditese');
+                
+
+
+                $("#MyModal2").modal();
+
+
+                $('#TantargyFrissitoModal').val(Tantargy);
+                $('#TantargyroviditeseFrissitoModal').val(Tantargyroviditese);
+               
+
+
+                $('#TantargyFrissitoGombModalAlja').click(function () {
+
+                    Tantargy = $('#TantargyFrissitoModal').val();
+                    Tantargyroviditese = $('#TantargyroviditeseFrissitoModal').val();
+                    
+
+                    if ((Tantargy === "") || (Tantargyroviditese === "")) {
+                        alert("Semelyik mező sem lehet üres!");
+                    } else {
+
+                        if (!(confirm("Biztosan módosítani szeretnéd?"))) {
+                            return;
+                        }
+
+
+
+                        var jsondata = '{"ID":"' + id + '","Tantargy":"' + Tantargy + '","Tantargyroviditese":"' + Tantargyroviditese + '"}';
+                        //console.log(jsondata);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Tantargy/TantargyFrissit",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: jsondata,
+                            success: function (response) {
+                                if (response.ErrorCode >= 0) {
+                                    //console.log("Response OK!");
+                                    window.location.href = "/Tantargy/"
+                                } else {
+                                    alert(response.ErrorMessage);
+                                }
+                                //console.log(response);
+                            },
+                            failure: function (response) {
+                                // alert(response.responseText);
+                            },
+                            error: function (response) {
+                                // alert(response.responseText);
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
+
+
+            
+
+           
+
+            $('#Kijelentkezes').click(function () {
+                var biztos = confirm("Biztosan kiszeretnél jelentkezni?");
+                if (!biztos) {
+                    return;
+                }
+                else {
+                    window.location.href = "/";
+                }
+            });
+
+        });
+
+
+
+    </script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+
+
+
+
+
+
+        <div class="row" style="margin-right: -30px; margin-left: -30px;">
+
+            <div class="col-sm-2" style="padding-right: 0px;padding-left: 0px;border-right: solid 2px;border-right-color: #b9b9b9;">
+                <ul class="nav flex-column nav-pills nav-fill ">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/Tanar/">Tanár kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Tanterem/" id="Tanteremkezelomenupont">Tanterem kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Tantargy/" id="Tantargykezelomenupont">Tantárgy kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Osztaly/" id="Osztalykezelomenupont">Osztály kezelő</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="Orarendkezelomenupont">Órarend kezelő</a>
+                    </li>
+                    <li class="nav-item btn-danger">
+                        <a class="nav-link" href="#" id="Kijelentkezes">Kijelentkezés</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <div class="row" id="rowtanar">
+
+
+
+                    <div class="col-lg-12">
+                        <input type="search" id="search" placeholder="Search...." />
+                        <button id="hozzaad">Tantárgy hozzáadása</button>
+                    </div>
+
+
+                </div>
+                <div class="m-portlet table-responsive">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+
+                        <!--begin::Section-->
+                        <div class="m-section">
+                            <div class="m-section__content">
+                                <table class="table table-striped m-table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Tantárgy
+                                            </th>
+                                            <th>
+                                                Tantárgy rövidítése
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (WebApplication1.Models.Tantargyak t in ViewData["TantargyLista"] as List<WebApplication1.Models.Tantargyak>)
+                                    {
+
+
+                                        <tbody id="table">
+                                            <tr>
+                                                <th scope="row">
+                                                    @t.ID
+                                                </th>
+                                                <td>
+                                                    @t.Tantargy
+                                                </td>
+                                                <td>
+                                                    @t.Tantargyroviditese
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="TantargyTorloGomb" id="@t.ID"><i class="fas fa-trash-alt"></i></a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="TantargyFrissitoGomb" id="@t.ID" Tantargy="@t.Tantargy" Tantargyroviditese="@t.Tantargyroviditese"><i class="fas fa-edit"></i></a>
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Form-->
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <footer class="footer">
+            <p>&copy; @DateTime.Now.Year - Codiee™</p>
+        </footer>
+            -->
+    </div>
+
+    <div class="modal" id="MyModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tantárgy hozzáadása</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg">
+                                <a>Tantárgy</a>
+                                <input class="form-control" type="text" name="Tantargy" id="Tantargy" placeholder="Tantárgy.." value="">
+                            </div>
+                            <div class="col-lg">
+                                <a>Tantárgy rövidítés</a>
+                                <input class="form-control" type="text" name="TantargyRovidites" id="TantargyRovidites" placeholder="Tantárgy rövidítés.." value="">
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="tanarhozzaad">Tantárgy hozzáadása!</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Mégse!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal" id="MyModal2" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal2-title">Tantárgy szerkesztése</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg">
+                                <a>Tantárgy</a>
+                                <input class="form-control" type="text" name="Tantargy" id="TantargyFrissitoModal" placeholder="Tantárgy.." value="">
+                            </div>
+                            <div class="col-lg">
+                                <a>Tantárgy rövidítés</a>
+                                <input class="form-control" type="text" name="TantargyRovidites" id="TantargyroviditeseFrissitoModal" placeholder="Tantárgy rövidítés.." value="">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="TantargyFrissitoGombModalAlja">Tantargy frissítése!</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Mégse!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

@@ -1,0 +1,1 @@
+Computer IP Address: 192.168.0.1 Date: 2018. 09. 11. 21:08:03 Success: True
